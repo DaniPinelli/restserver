@@ -20,7 +20,7 @@ const UserSchema = Schema({
     role: {
         type: String,
         required: true,
-        role_type: ['ADMIN', 'USER']
+        role_type: ['ADM', 'USER']
     },
     status: {
         type: Boolean,
@@ -30,8 +30,12 @@ const UserSchema = Schema({
         type: Boolean,
         default: false
     }
-
 });
+
+UserSchema.methods.toJSON = function () {
+    const { __v, password, ...user } = this.toObject();
+    return user;
+}
 
 
 module.exports = model('User', UserSchema);
