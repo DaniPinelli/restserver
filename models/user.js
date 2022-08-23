@@ -7,6 +7,31 @@ const UserSchema = Schema({
     },
     email: {
         type: String,
-        required: [true, 'Email is required']
+        required: [true, 'Email is required'],
+        unique: true
+    },
+    password: {
+        type: String,
+        required: [true, 'Password is required']
+    },
+    img: {
+        type: String
+    },
+    role: {
+        type: String,
+        required: true,
+        role_type: ['ADMIN', 'USER']
+    },
+    status: {
+        type: Boolean,
+        default: true
+    },
+    google: {
+        type: Boolean,
+        default: false
     }
-})
+
+});
+
+
+module.exports = model('User', UserSchema);
