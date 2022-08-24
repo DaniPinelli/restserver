@@ -62,17 +62,16 @@ const userPatch = (req, res) => res.json({ "msg": "patch API - controller" });
 
 const userDelete = async (req, res = response) => {
 
-    const { id } = req.params;
+    const {id} = req.params;
 
     //Delete user physically
     //const user = await User.findByIdAndDelete(id);
 
     //Delete user logically
     const user = await User.findByIdAndUpdate(id, { status: false });
+    const authenticatedUser = req.user;
     
-    res.json({
-        id
-    });
+    res.json({user, authenticatedUser});
 
 }
 
