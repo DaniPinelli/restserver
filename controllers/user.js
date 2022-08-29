@@ -8,11 +8,11 @@ const { countDocuments } = require('../models/user');
 const usersGet = async (req = request, res = response) => {
 
     const { limit = 3, from = 0 } = req.query;
-    const active = { status: true };
+    const query = { status: true };
 
     const [total, users] = await Promise.all([
-        User.countDocuments(active),
-        User.find(active)
+        User.countDocuments(query),
+        User.find(query)
             .skip(Number(from))
             .limit(Number(limit))
     ])
