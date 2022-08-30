@@ -66,10 +66,18 @@ const updateCateg = async (req, res = response) =>{
     res.json(categ);
 }
 
+const deleteCateg = async(req, res = response) =>{
+
+    const {id} = req.params;
+    const deletedCateg = await Categ.findByIdAndUpdate(id, {status: false}, {new: true});
+    res.json(deletedCateg);
+}
+
 
 module.exports = {
     createCateg,
     getCategs,
     getCategById,
-    updateCateg
+    updateCateg,
+    deleteCateg
 }

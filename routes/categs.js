@@ -1,9 +1,15 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { createCateg, getCategs, getCategById, updateCateg } = require('../controllers/categs');
+const { 
+    createCateg, 
+    getCategs, 
+    getCategById, 
+    updateCateg, 
+    deleteCateg
+} = require('../controllers/categs');
 const { ifCateg } = require('../helpers/db-validators');
 
-const { validateJWT, validateFields } = require('../middlewares');
+const { validateJWT, validateFields, isAdm } = require('../middlewares');
 
 const router = Router();
 
@@ -27,11 +33,20 @@ router.post('/',[
 ], createCateg);
 
 //Update - private - any person w/token
-router.put('/:id',updateCateg);
+router.put('/:id', [
+    validateJWT,
+    check('name', 'Name is required').not().isEmpty(),
+    check('id').custom(ifCateg),
+    validateFields
+], updateCateg);
 
 //Delete - Admin
-router.delete('/:id', (req, res) =>{
-    res.json('delete');
-});
+router.delete('/:id', [
+    validateJWT,
+    isAdm,
+    check('id', 'Id NOT valid').isMongoId(),
+    check('id').custom(ifCateg),
+    validateFields
+], deleteCateg);
 
 module.exports = router;

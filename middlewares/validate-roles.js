@@ -11,7 +11,7 @@ const isAdm = (req, res = response, next) =>{
 
     const {role, name} = req.user;
 
-    if(role !== 'Admin'){
+    if(role !== 'ADM'){
         return res.status(401).json({
             message: 'User NOT authorized'
         });
