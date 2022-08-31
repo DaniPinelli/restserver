@@ -1,30 +1,22 @@
 const { response } = require("express");
-const path = require('path');
+const { storeFile } = require("../helpers");
 
-
-
-const uploadFile = (req, res = response) => {
+const uploadFile = async(req, res = response) => {
   
     if (!req.files || Object.keys(req.files).length === 0) {
       res.status(400).json({msg: 'No files were uploaded.'});
       return;
     }
   
-    file = req.files.file;
-    const splitName = file.name.split('.');
-    const extension = splitName[ splitName.length -1 ];
+    //Images and a
+    const filePath = await storeFile(req.files, undefined, 'images');
 
-    console.log(splitName);
-  
-    // uploadPath = path.join( __dirname,  '../uploads/', file.name);
-  
-    // file.mv(uploadPath, (err) => {
-    //   if (err) {
-    //     return res.status(500).json({err});
-    //   }
-  
-    //   res.json({msg: 'File uploaded to ' + uploadPath});
-    // });
+    // Add txt and md
+    //const filePath = await storeFile(req.files, ['txt', 'md'], 'texts');
+
+    res.json({
+      filePath
+    })
 }
 
 
