@@ -1,4 +1,5 @@
 const { User, Categ, Product } = require('../models');
+const { collection } = require('../models/role');
 const Role = require('../models/role');
 
 const isValidRole = async (role = '') => {
@@ -44,10 +45,26 @@ const ifProduct = async (id) => {
     }
 }
 
+//Validate collections
+const allowedCollections = (collection = '', collections = []) => {
+
+    const including = collections.includes(collection);
+    if(!including) {
+        throw new Error('Collection NOT valid');
+    }
+
+    return true;
+}
+
+
+
+
+
 module.exports = {
     isValidRole,
     emailExists,
     idUserExists,
     ifCateg,
-    ifProduct
+    ifProduct,
+    allowedCollections
 }
